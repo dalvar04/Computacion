@@ -19,9 +19,11 @@ int main(int argc, char* argv[]){
   
   sprintf(messageSend,"Soy el proceso %d, mi machine name es: %s", rank, &machName );
   MPI_Isend(&messageSend, 100,MPI_CHAR,rank+1,tag,MPI_COMM_WORLD, &request);
+  MPI_Irecv(&messageRecv,100,MPI_CHAR,size-1,tag,MPI_COMM_WORLD, &request);
   MPI_Wait(&request, &info);
   
-  printf("Proceso %d envia a proceso %d un mensaje\n", rank, rank+1);
+  //printf("Proceso %d envia a proceso %d un mensaje\n", rank, rank+1);
+  printf("Proceso %d recibe el mensaje: %s. Envia el suyo al proceso %d \n", rank, messageRecv, 0);
   }
   else if(rank< size-1){
     
@@ -38,8 +40,11 @@ int main(int argc, char* argv[]){
  }
  else{
  
+   sprintf(messageSend,"Soy el proceso %d, mi machine name es: %s", rank, &machName );
+   MPI_Isend(&messageSend, 100,MPI_CHAR,0,tag,MPI_COMM_WORLD, &request);
    MPI_Irecv(&messageRecv,100,MPI_CHAR,rank-1,tag,MPI_COMM_WORLD, &request);
    MPI_Wait(&request, &info);
-   printf("Proceso %d recibe mensaje del proceso anterior: %s \n", rank, messageRecv);
+   //printf("Proceso %d recibe mensaje del proceso anterior: %s \n", rank, messageRecv);
+   printf("Proceso %d recibe el mensaje: %s. Envia el suyo al proceso %d \n", rank, messageRecv, 0);
  }
 }
