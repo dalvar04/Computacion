@@ -28,7 +28,7 @@ int main(int argc, char* argv[]){
      MPI_Bcast(buffer, position, MPI_PACKED, 0, MPI_COMM_WORLD);
   }
   else{
-    MPI_Recv(buffer, 1000, MPI_PACKED, 0, 0, MPI_COMM_WORLD, &status);
+    MPI_Bcast(buffer, 1000, MPI_PACKED, 0, MPI_COMM_WORLD, &status);
     position = 0;
     MPI_Unpack(buffer, 1000, &position, &valorEntero, rank, MPI_INT, MPI_COMM_WORLD);
     MPI_Unpack(buffer, 1000, &position, &valorReal1, rank, MPI_FLOAT, MPI_COMM_WORLD);
